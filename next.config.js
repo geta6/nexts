@@ -1,4 +1,5 @@
-const withCss = require('@zeit/next-css');
-const withTypescript = require('@zeit/next-typescript');
+const plugins = [require('@zeit/next-css'), require('@zeit/next-typescript')];
 
-module.exports = withTypescript(withCss({ cssModules: true }));
+const config = {};
+
+module.exports = plugins.reduce((prev, current) => current(prev), config);
