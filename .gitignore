@@ -9,7 +9,7 @@
 /tmp
 
 # next
-.next/
+.next
 
 # node.js
 node_modules

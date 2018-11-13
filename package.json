@@ -9,10 +9,9 @@
     "yarn": ">= 1.10.1"
   },
   "scripts": {
-    "dev": "next",
-    "build": "next build",
-    "prestart": "next build",
-    "start": "next start -p $PORT"
+    "dev": "next dev src/",
+    "prestart": "next build src/",
+    "start": "next start src/ -p $PORT"
   },
   "husky": {
     "hooks": {
