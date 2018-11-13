@@ -1,0 +1,26 @@
+# system
+.DS_Store
+*.sw*
+
+# env specific
+.env*
+
+# temporary
+/tmp
+
+# next
+.next/
+
+# node.js
+node_modules
+npm-shrinkwrap.json
+npm-debug.log
+package-lock.json
+isolate-*
+
+# yarn
+yarn-*
+
+# typescript
+pages/*.js
+pages/*.jsx

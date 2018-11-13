@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "editorconfig.editorconfig",
+    "msjsdiag.debugger-for-chrome",
+    "esbenp.prettier-vscode",
+    "asvetliakov.snapshot-tools",
+    "shinnn.stylelint",
+    "eg2.tslint"
+  ]
+}

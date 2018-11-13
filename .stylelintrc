@@ -1,0 +1,19 @@
+{
+  "extends": [
+    "stylelint-config-standard",
+    "stylelint-config-rational-order",
+    "./node_modules/prettier-stylelint/config.js"
+  ],
+  "rules": {
+    "color-named": "never",
+    "color-no-hex": true,
+    "indentation": 2,
+    "string-quotes": "single",
+    "selector-list-comma-newline-after": "always-multi-line",
+    "no-missing-end-of-source-newline": null,
+    "selector-id-pattern": "^[a-z][a-z0-9-]+$",
+    "selector-class-pattern": "^[a-z][a-z0-9-]+$",
+    "unit-blacklist": "px",
+    "function-whitespace-after": null
+  }
+}

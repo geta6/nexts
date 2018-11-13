@@ -1,0 +1,17 @@
+{
+  "name": "next.js",
+  "description": "Universal web app built on React",
+  "scripts": {},
+  "env": {},
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "editor.tabSize": 2,
+  "editor.insertSpaces": true,
+  "files.associations": {
+    "*.stylelintrc": "json",
+    "*.huskyrc": "json"
+  },
+  "javascript.format.enable": false,
+  "javascript.validate.enable": false,
+  "tslint.autoFixOnSave": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "prettier.stylelintIntegration": true
+}

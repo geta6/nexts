@@ -1,0 +1,94 @@
+#!/bin/bash
+
+set -eu
+
+# semver
+
+semver_compare() {
+  local version_a version_b pr_a pr_b
+  version_a=$(echo "${1//v/}" | awk -F'-' '{print $1}')
+  version_b=$(echo "${2//v/}" | awk -F'-' '{print $1}')
+
+  if [ "$version_a" \= "$version_b" ]; then
+    pr_a=$(echo "$1" | awk -F'-' '{print $2}')
+    pr_b=$(echo "$2" | awk -F'-' '{print $2}')
+    [ "$pr_a" \= "$pr_b" ] && echo 0 && return 0
+    [ -z "$pr_a" ] || [ "$pr_a" \> "$pr_b" ] && [ -n "$pr_b" ] && echo 1 && return 0
+    echo -1 && return 0
+  fi
+  arr_version_a=(${version_a//./ })
+  arr_version_b=(${version_b//./ })
+  cursor=0
+  while [ "$([ "${arr_version_a[$cursor]}" == "${arr_version_b[$cursor]}" ] && [ $cursor -lt ${#arr_version_a[@]} ] && echo true)" == true ]; do
+    cursor=$((cursor+1))
+  done
+  [ "${arr_version_a[$cursor]}" -gt "${arr_version_b[$cursor]}" ] && echo 1 || echo -1
+}
+
+# nodenv
+
+if [ ! -d ~/.nodenv ]; then
+  git clone https://github.com/nodenv/nodenv.git ~/.nodenv && cd ~/.nodenv && ./src/configure && make -C src
+fi
+echo '>> nodenv installed :)'
+
+if [ ! -d ~/.nodenv/plugins/node-build ]; then
+  git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
+fi
+echo '>> node-build installed :)'
+
+if [ ! -d ~/.nodenv/plugins/nodenv-update ]; then
+  git clone https://github.com/nodenv/nodenv-update.git ~/.nodenv/plugins/nodenv-update
+fi
+echo '>> nodenv-update installed :)'
+
+if [ ! -d ~/.nodenv/plugins/node-build-update-defs ]; then
+  git clone https://github.com/nodenv/node-build-update-defs.git ~/.nodenv/plugins/node-build-update-defs
+fi
+echo '>> node-build-update-defs installed :)'
+
+# install node
+
+if [ ! -x "`which nodenv`" ]; then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+fi
+
+if [ ! -x "`which node`" ]; then
+  eval "$(nodenv init -)"
+fi
+
+nodenv update
+nodenv update-version-defs --nodejs
+nodenv install --skip-existing
+
+# yarn
+
+if [ ! -x "`which yarn`" ]; then
+  export PATH="$HOME/.yarn/bin:$PATH"
+fi
+
+if [ ! -x "`which yarn`" ]; then
+  if [ "$(expr substr $(uname -s) 1 5)" == 'Linux' ]; then
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+  else
+    echo 'yarn not installed, see https://yarnpkg.com/en/docs/install'
+    exit 1
+  fi
+else
+  echo '>> yarn installed :)'
+fi
+
+if [ "`semver_compare $(yarn --version) $(cat package.json | grep '"yarn"' | sed -e 's/[^0-9\.]//g')`" == "-1" ]; then
+  if [ "$(expr substr $(uname -s) 1 5)" == 'Linux' -a -d "$HOME/.yarn" ]; then
+    echo '>> yarn should be updated :)'
+    rm -rf ~/.yarn
+    curl -o- -L https://yarnpkg.com/install.sh | bash
+  else
+    echo '>> yarn should be updated :('
+    exit 1
+  fi
+else
+  echo '>> yarn version check passed :)'
+fi
+
+yarn install --pure-lockfile --no-emoji --no-progress
