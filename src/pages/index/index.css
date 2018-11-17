@@ -1,0 +1,7 @@
+@import 'minireset.css';
+@import '../../utils/variables.css';
+
+#root {
+  font-size: var(--gutter);
+  background-color: #eaeaf3;
+}

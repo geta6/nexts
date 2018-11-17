@@ -1,0 +1,8 @@
+/* stylelint-disable color-no-hex, color-named, unit-blacklist */
+
+:root {
+  /* Base sizes */
+  --gutter: 16px;
+}
+
+/* stylelint-enable */
